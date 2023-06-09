@@ -16,7 +16,7 @@ contract Marketplace {
 		address payable owner;
 		bool purchased;
 		uint upvotes;
-		string[5] contributors;
+		string[6] contributors;
 	}
 
 	event ProductCreated(
@@ -26,7 +26,7 @@ contract Marketplace {
 		address payable owner,
 		bool purchased,
 		uint upvotes,
-		string[5] contributors	
+		string[6] contributors	
 	);
 
 	event upVote(
@@ -40,7 +40,7 @@ contract Marketplace {
 		address payable owner,
 		bool purchased,
 		uint upvotes,
-		string[5] contributors
+		string[6] contributors
 	);
 
 	struct voteEnd{
@@ -54,7 +54,7 @@ contract Marketplace {
 		vote_end = 0;
 	}
 
-	function getArr(uint _id) public view returns (string[5] memory) {
+	function getArr(uint _id) public view returns (string[6] memory) {
 		Product storage myProduct = products[_id];
     	return myProduct.contributors;
 	}
@@ -164,7 +164,7 @@ contract Marketplace {
 	}
 
 
-	function createProduct(string memory _name, uint _price, uint upvotes, string[5] memory contributors) public {
+	function createProduct(string memory _name, uint _price, uint upvotes, string[6] memory contributors) public {
 		// require a name
 		require(bytes(_name).length > 0);
 		// require a valid price
@@ -207,12 +207,20 @@ contract Marketplace {
 		_product.contributors[_product.upvotes] = addressToString(msg.sender);
 		//update the product
 		//products[_id] = _product;
+		
 		products[_id] = Product(productCount,
 		_product.name, _product.price, 
 		_product.owner, false, 
 		_product.upvotes, 
 		_product.contributors);
 
+		if(_product.upvotes >= 5){
+			products[_id] = Product(productCount,
+			_product.name, _product.price, 
+			_product.owner, true, 
+			_product.upvotes, 
+			_product.contributors);
+		}	
 		// pay the seller by sending them ether
 		//address(_seller).transfer(msg.value);
 		// trigger an event

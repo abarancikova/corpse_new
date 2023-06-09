@@ -43,7 +43,7 @@ class Main extends Component {
           event.preventDefault()
           const name = this.productName.value
           const price = window.web3.utils.toWei("0.000005", 'Ether')
-          var my_val = ['', '', '', '', ''];
+          var my_val = ['', '', '', '', '', ''];
           this.props.createProduct(name, price, 0, my_val)
         }}>
           <div className="form-group mr-sm-2">

@@ -49,6 +49,9 @@ class App extends Component {
         this.setState({
           products: [...this.state.products, product]
         })
+        console.log("here")
+        console.log(product)
+        console.log(product.upvotes.toString())
       }
       this.setState({ loading: false})
     } else {
