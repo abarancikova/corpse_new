@@ -16,7 +16,7 @@ contract Marketplace {
 		address payable owner;
 		bool purchased;
 		uint upvotes;
-		string[6] contributors;
+		string[3] contributors;
 	}
 
 	event ProductCreated(
@@ -26,7 +26,7 @@ contract Marketplace {
 		address payable owner,
 		bool purchased,
 		uint upvotes,
-		string[6] contributors	
+		string[3] contributors	
 	);
 
 	event upVote(
@@ -40,7 +40,7 @@ contract Marketplace {
 		address payable owner,
 		bool purchased,
 		uint upvotes,
-		string[6] contributors
+		string[3] contributors
 	);
 
 	struct voteEnd{
@@ -54,7 +54,7 @@ contract Marketplace {
 		vote_end = 0;
 	}
 
-	function getArr(uint _id) public view returns (string[6] memory) {
+	function getArr(uint _id) public view returns (string[3] memory) {
 		Product storage myProduct = products[_id];
     	return myProduct.contributors;
 	}
@@ -118,11 +118,11 @@ contract Marketplace {
 
 	function createVoteEnd() public {
 		vote_end++;
-		if(vote_end >= 10){
+		if(vote_end >= 3){
 			Product memory _product;
 			for(uint i = 0; i < vote_end; i++){
 				_product = products[i];
-				if(_product.upvotes >= 5){
+				if(_product.upvotes >= 2){
 						historyProdCount++;
 						products_historical = strConcat(products_historical, strConcat(products[i].name, " "));
 				}
@@ -164,7 +164,7 @@ contract Marketplace {
 	}
 
 
-	function createProduct(string memory _name, uint _price, uint upvotes, string[6] memory contributors) public {
+	function createProduct(string memory _name, uint _price, uint upvotes, string[3] memory contributors) public {
 		// require a name
 		require(bytes(_name).length > 0);
 		// require a valid price
@@ -214,7 +214,7 @@ contract Marketplace {
 		_product.upvotes, 
 		_product.contributors);
 
-		if(_product.upvotes >= 5){
+		if(_product.upvotes >= 2){
 			products[_id] = Product(productCount,
 			_product.name, _product.price, 
 			_product.owner, true, 

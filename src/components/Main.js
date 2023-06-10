@@ -43,7 +43,7 @@ class Main extends Component {
           event.preventDefault()
           const name = this.productName.value
           const price = window.web3.utils.toWei("0.000005", 'Ether')
-          var my_val = ['', '', '', '', '', ''];
+          var my_val = ['', '', ''];
           this.props.createProduct(name, price, 0, my_val)
         }}>
           <div className="form-group mr-sm-2">
@@ -98,7 +98,7 @@ class Main extends Component {
         { 
         this.props.products.map((product, key) => {
               return(
-                (product.upvotes >= 5) ?
+                (product.upvotes >= 2) ?
                 <div key={key}>
                     { product.purchased
                       ? <div  ref="setter" className="sentence" dangerouslySetInnerHTML={{ __html: product.name}}></div>

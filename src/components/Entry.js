@@ -25,7 +25,7 @@ class Entry extends Component {
 	const concatenatedData = myData.join(" "); 
 
     return (
-	((this.props.product.upvotes < 5) ?
+	((this.props.product.upvotes < 2) ?
 		<tr key={this.props.key}>
 	   { !this.props.product.purchased
 		   ?
@@ -46,6 +46,12 @@ class Entry extends Component {
 			   name={this.props.product.id}
 			   value={this.props.product.price}
 			   onClick={(event) => {
+				console.log(this.props.account)
+				// for (let i = 1; i < 2; i++) {
+				// 	if (this.props.product.contributors[i].toString() === this.props.account.toString() ) {
+				// 		window.alert('Cannot vote again!')
+				// 	}
+				// }
 				 this.props.purchaseProduct(event.target.name, event.target.value)
 			   }}
 			 >

@@ -49,7 +49,6 @@ class App extends Component {
         this.setState({
           products: [...this.state.products, product]
         })
-        console.log("here")
         console.log(product)
         console.log(product.upvotes.toString())
       }
@@ -89,10 +88,16 @@ class App extends Component {
 
   purchaseProduct(id, price) {
     this.setState({ loading: true })
+    //if same contributor votes again
+    //console.log( this.state.marketplace.product.upvotes.toString())
+    //console.log(this.state.product.upvotes.toString())
+    
     this.state.marketplace.methods.purchaseProduct(id).send({ from: this.state.account, value: price, gasLimit: 5000000})
     .once('transactionHash', (transactionHash) => {
       this.setState({ loading: false })
     })
+    
+    
   }
 
   createVoteEnd() {
