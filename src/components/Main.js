@@ -85,6 +85,7 @@ class Main extends Component {
             	this.props.getArr(product.id.toNumber());         
               if (!product.purchased) {
                 return <Entry key={key} product={product} name={product.name} upvotes={product.upvotes} purchaseProduct ={this.props.purchaseProduct} getArr ={this.props.getArr} data={this.state.myArrContent}/>;
+                
               } else {
                 return null;
               }

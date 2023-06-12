@@ -12,6 +12,7 @@ class Entry extends Component {
 
 	  async fetchData() {
 		const data = await this.props.getArr(this.props.product.id.toNumber());
+		console.log(data)
 		this.setState({ myData: data });
 	  }
 	  componentDidMount() {

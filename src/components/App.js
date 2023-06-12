@@ -49,9 +49,18 @@ class App extends Component {
         this.setState({
           products: [...this.state.products, product]
         })
-        console.log(product)
-        console.log(product.upvotes.toString())
+        console.log(this.getArr(1))
+        
       }
+      // for (var i = 1; i <= productCount; i++) {
+      //   const contributors = await marketplace.methods.getCurrentContrib(i).call()
+      //   this.setState({
+      //     getCurrentContrib: [...this.state.getCurrentContrib, contributors]
+      //   })
+      //   console.log("contributor")
+      //   console.log(contributors[0])
+      // }
+     
       this.setState({ loading: false})
     } else {
       window.alert('Marketplace contract not deployed to detected network.')
@@ -88,9 +97,6 @@ class App extends Component {
 
   purchaseProduct(id, price) {
     this.setState({ loading: true })
-    //if same contributor votes again
-    //console.log( this.state.marketplace.product.upvotes.toString())
-    //console.log(this.state.product.upvotes.toString())
     
     this.state.marketplace.methods.purchaseProduct(id).send({ from: this.state.account, value: price, gasLimit: 5000000})
     .once('transactionHash', (transactionHash) => {
@@ -125,8 +131,6 @@ class App extends Component {
   }
 
 
-
-
   render() {
     return (
       <div className='all_encomp'>
@@ -143,7 +147,8 @@ class App extends Component {
                   getArr={this.getArr} 
                   voteEnd={this.createVoteEnd}
                   increase={this.increaseVotes}
-                  getVote={this.getCurrentVote}/>
+                  getVote={this.getCurrentVote}
+                  />
               }
             </main>
             </div>

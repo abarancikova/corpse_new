@@ -6,6 +6,7 @@ contract Marketplace {
 	uint public vote_end = 0;
 	uint public historyProdCount = 0;
 	mapping(uint => Product) public products;
+	//mapping(Product => string) public productContributors;
 	// store the stories that have reached ten upvotes for display
 	string public products_historical;
 
@@ -28,6 +29,11 @@ contract Marketplace {
 		uint upvotes,
 		string[3] contributors	
 	);
+
+	// event ContributorTracker(
+	// 	uint id,
+	// 	string contrib
+	// );
 
 	event upVote(
 		uint vote
@@ -140,8 +146,7 @@ contract Marketplace {
 		// address(_seller).transfer(msg.value);
 		return vote_end;
 	}
-
-
+	
 	// function checkVotesLoad() public{
 	// 	Product memory _product;
 	// 	for(uint i = 0; i < vote_end; i++){
@@ -185,7 +190,7 @@ contract Marketplace {
 		Product memory _product = products[_id];	
 		// fetch the owner
 		address _seller = _product.owner;
-		_product.owner = payable(msg.sender);
+		
 		// make sure the product has a valid id
 		require(_product.id > 0 && _product.id <= productCount);
 		// make sure they sent enough ether
@@ -198,37 +203,47 @@ contract Marketplace {
 		
 
 		// purchase it -> transfer ownership to buyer
-		//_product.owner = msg.sender;
+		_product.owner = payable(msg.sender);
 		// mark as purchased
-		_product.purchased = true;
 		// increment upvotes of product
 		_product.upvotes += 1;
 		//add purchaser to contributors
-		_product.contributors[_product.upvotes] = addressToString(msg.sender);
+		_product.contributors[_product.upvotes] = addressToString(_product.owner);
 		//update the product
-		//products[_id] = _product;
+		products[_id] = _product;
 		
-		products[_id] = Product(productCount,
-		_product.name, _product.price, 
-		_product.owner, false, 
-		_product.upvotes, 
-		_product.contributors);
+		// products[_id] = Product(productCount,
+		// _product.name, _product.price, 
+		// _product.owner, false, 
+		// _product.upvotes, 
+		// _product.contributors);
 
 		if(_product.upvotes >= 2){
-			products[_id] = Product(productCount,
-			_product.name, _product.price, 
-			_product.owner, true, 
-			_product.upvotes, 
-			_product.contributors);
+			_product.purchased = true;
+			// products[_id] = Product(productCount,
+			// _product.name, _product.price, 
+			// _product.owner, true, 
+			// _product.upvotes, 
+			// _product.contributors);
+			products[_id] = _product;
+			emit ProductPurchased(productCount, _product.name, _product.price, _product.owner, true, _product.upvotes, _product.contributors);
+		}
+		else {
+			_product.purchased = false;
+			products[_id] = _product;
+			emit ProductPurchased(productCount, _product.name, _product.price, _product.owner, false, _product.upvotes, _product.contributors);
+			//emit ProductCreated(productCount, _product.name, _product.price, _product.owner, false, _product.upvotes, _product.contributors);
 		}	
 		// pay the seller by sending them ether
 		//address(_seller).transfer(msg.value);
 		// trigger an event
-		emit ProductPurchased(productCount, _product.name, _product.price, payable(_seller), true, _product.upvotes, _product.contributors);
+		//emit prodict(productCount, _product.name, _product.price, _product.owner, false, _product.upvotes, _product.contributors);
 		//createProduct(_product.name, _product.price, _product.upvotes, _product.contributors);
-		
+	
 		// if(_product.upvotes < 2){
 		// 	createProduct(_product.name, _product.price, _product.upvotes, _product.contributors);
 		// }
+		//products[_id] = _product;
 	}
+
 }
