@@ -122,17 +122,19 @@ class Main extends Component {
 			 </button>
        <div dangerouslySetInnerHTML={{ __html: this.props.votez}}></div>
 
+ 
        <h2>
           Past Stories
         </h2>
-       <div  ref="setter" className="sentence" dangerouslySetInnerHTML={{ __html: this.props.historicalProducts}}></div>
-       <br>
-       </br>
-       <br>
-       </br>
-       <div>
-    Beta V1.0, UEP Lab Tufts University
-  </div>
+        <div ref="setter" className="sentence" style={{ whiteSpace: "pre-line" }}>
+          {this.props.historicalProducts.replace(/(\r\n|\n|\r)/gm, '\n')}
+        </div>
+        <br />
+        <br />
+        <div style={{ marginTop: "3em" }}>
+          <br /><br /><br />
+          Beta V1.0, UEP Lab Tufts University
+        </div>
       </div>
     );
   }

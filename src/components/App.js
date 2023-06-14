@@ -49,7 +49,7 @@ class App extends Component {
         this.setState({
           products: [...this.state.products, product]
         })
-        console.log(this.getArr(1))
+        //console.log(this.getArr(1))
         
       }
       // for (var i = 1; i <= productCount; i++) {
